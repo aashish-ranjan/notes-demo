@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.notesdemo.adapters.NotesRecyclerAdapter
 import com.example.notesdemo.models.Note
+import com.example.notesdemo.util.NotesRecyclerItemDecoration
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,19 +26,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         recyclerView = findViewById(R.id.rv_notes_list)
-        recyclerView?.layoutManager = LinearLayoutManager(this)
-        recyclerView?.adapter = NotesRecyclerAdapter(notesList)
+        recyclerView?.also {
+            it.layoutManager = LinearLayoutManager(this)
+            it.addItemDecoration(
+                NotesRecyclerItemDecoration(10)
+            )
+            it.adapter = NotesRecyclerAdapter(notesList)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun populateRecyclerView() {
-        notesList.addAll(
-            arrayListOf(
-                Note("Title a", timestamp = "01.01.2023"),
-                Note("Title b", timestamp = "02.01.2023"),
-                Note("Title c", timestamp = "03.01.2023")
-            )
-        )
+        repeat(100) { i ->
+            notesList.add(Note("Title #$i", timestamp = "Timestamp #$i"))
+        }
         recyclerView?.adapter?.notifyDataSetChanged()
     }
 }
