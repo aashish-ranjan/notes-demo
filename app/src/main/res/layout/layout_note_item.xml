@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="#F7E594"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/tv_note_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+        android:textStyle="bold"
+        android:text="Sample note title"/>
+
+    <View
+        android:id="@+id/title_timestamp_separator"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"/>
+
+    <TextView
+        android:id="@+id/tv_note_timestamp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:textColor="#808080"
+        android:text="01.01.2023"/>
+
+</LinearLayout>
