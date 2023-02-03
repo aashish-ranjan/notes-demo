@@ -3,6 +3,7 @@ package com.example.notesdemo
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesdemo.adapters.NotesRecyclerAdapter
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById<Toolbar>(R.id.notesToolbar))
+        title = "Notes List"
         initRecyclerView()
         populateRecyclerView()
     }
