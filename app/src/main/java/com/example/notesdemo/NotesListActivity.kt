@@ -4,14 +4,13 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesdemo.adapters.NotesRecyclerAdapter
 import com.example.notesdemo.models.Note
 import com.example.notesdemo.util.NotesRecyclerItemDecoration
 
-class MainActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickListener {
+class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickListener {
 
     //UI components
     var recyclerView: RecyclerView? = null
@@ -21,8 +20,8 @@ class MainActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById<Toolbar>(R.id.notesToolbar))
+        setContentView(R.layout.activity_notes_list)
+        setSupportActionBar(findViewById(R.id.notesToolbar))
         title = "Notes List"
         initRecyclerView()
         populateRecyclerView()
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickLi
     }
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "NotesListActivity"
     }
 
 }
