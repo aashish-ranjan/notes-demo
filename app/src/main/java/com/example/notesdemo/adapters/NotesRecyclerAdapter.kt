@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notesdemo.R
 import com.example.notesdemo.models.Note
 
-class NotesRecyclerAdapter(private val notesList: ArrayList<Note>): RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>() {
+class NotesRecyclerAdapter(
+    private val notesList: ArrayList<Note>,
+    private val onNoteItemClickListener: OnNoteItemClickListener
+) : RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
@@ -32,13 +35,21 @@ class NotesRecyclerAdapter(private val notesList: ArrayList<Note>): RecyclerView
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
      */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
         val titleTextView: TextView
         val timestampTextView: TextView
 
         init {
             titleTextView = view.findViewById(R.id.tv_note_title)
             timestampTextView = view.findViewById(R.id.tv_note_timestamp)
+            view.setOnClickListener {
+                onNoteItemClickListener.onNoteItemClicked(absoluteAdapterPosition)
+            }
         }
+    }
+
+    interface OnNoteItemClickListener {
+        fun onNoteItemClicked(position: Int)
     }
 }

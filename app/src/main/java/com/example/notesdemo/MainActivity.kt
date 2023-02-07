@@ -3,6 +3,7 @@ package com.example.notesdemo
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.example.notesdemo.adapters.NotesRecyclerAdapter
 import com.example.notesdemo.models.Note
 import com.example.notesdemo.util.NotesRecyclerItemDecoration
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickListener {
 
     //UI components
     var recyclerView: RecyclerView? = null
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             it.addItemDecoration(
                 NotesRecyclerItemDecoration(10)
             )
-            it.adapter = NotesRecyclerAdapter(notesList)
+            it.adapter = NotesRecyclerAdapter(notesList, this)
         }
     }
 
@@ -45,4 +46,13 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView?.adapter?.notifyDataSetChanged()
     }
+
+    override fun onNoteItemClicked(position: Int) {
+        Log.d(TAG, "onNoteClicked at position $position")
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
 }
