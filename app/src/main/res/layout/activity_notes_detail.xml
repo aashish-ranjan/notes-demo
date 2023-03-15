@@ -4,15 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#F7E594"
     tools:context=".NotesDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/layout_notes_detail_toolbar" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/notesDetailToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/layout_notes_detail_toolbar" />
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.example.notesdemo.util.LinedEditText
+        android:id="@+id/tv_note_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textMultiLine"
+        android:gravity="top" />
 
 </LinearLayout>
