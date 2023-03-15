@@ -23,7 +23,7 @@ class NotesRecyclerAdapter(
 
     override fun getItemCount(): Int {
         return notesList.size
-    }
+    } 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note = notesList[position]

@@ -1,6 +1,7 @@
 package com.example.notesdemo
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -48,6 +49,13 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
 
     override fun onNoteItemClicked(position: Int) {
         Log.d(TAG, "onNoteClicked at position $position")
+        if (position > 0) {
+            val note = notesList[position]
+            val intent = Intent(this, NotesDetailActivity::class.java)
+            intent.putExtra("note_key", note)
+            startActivity(intent)
+        }
+
     }
 
     companion object {
