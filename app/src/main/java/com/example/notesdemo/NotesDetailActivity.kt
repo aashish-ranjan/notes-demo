@@ -181,6 +181,8 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
             getInt(EDIT_MODE).let {
                 if (it == EDIT_MODE_ENABLED) {
                     enableEditMode()
+                } else {
+                    disableEditMode()
                 }
             }
             getString(DISPLAY_MODE_TITLE)?.let {
