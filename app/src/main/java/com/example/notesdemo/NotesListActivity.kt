@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesdemo.adapters.NotesRecyclerAdapter
@@ -55,7 +56,11 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
             intent.putExtra("note_key", note)
             startActivity(intent)
         }
+    }
 
+    fun onAddNoteClicked(view: View) {
+        val intent = Intent(this, NotesDetailActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
