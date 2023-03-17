@@ -52,7 +52,7 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
 
     override fun onNoteItemClicked(position: Int) {
         Log.d(TAG, "onNoteClicked at position $position")
-        if (position > 0) {
+        if (position >= 0) {
             val note = mNotesList[position]
             val intent = Intent(this, NotesDetailActivity::class.java)
             intent.putExtra("note_key", note)
