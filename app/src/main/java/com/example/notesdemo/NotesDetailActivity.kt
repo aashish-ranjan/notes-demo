@@ -34,7 +34,7 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
 
         initUiElements()
         val note = intent?.getParcelableExtra<Note?>("note_key")
-        setInitialProperties(note)
+        setUpInitialProperties(note)
         if (note != null) {
             disableEditMode()
         } else {
@@ -51,7 +51,7 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
         iconBack = findViewById(R.id.iv_back)
     }
 
-    private fun setInitialProperties(note: Note?) {
+    private fun setUpInitialProperties(note: Note?) {
         displayModeTitle.text = note?.title ?: "New Title"
         editModeTitle.setText(note?.title ?: "New Title")
         linedEditText.setText(note?.content ?: "")
@@ -167,9 +167,33 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.apply {
+            putInt(EDIT_MODE, mEditMode)
+            putString(DISPLAY_MODE_TITLE, displayModeTitle.text.toString())
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.apply {
+            getInt(EDIT_MODE).let {
+                if (it == EDIT_MODE_ENABLED) {
+                    enableEditMode()
+                }
+            }
+            getString(DISPLAY_MODE_TITLE)?.let {
+                displayModeTitle.text = it
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "NotesDetailActivity"
         private const val EDIT_MODE_ENABLED = 0
         private const val EDIT_MODE_DISABLED = 1
+        private const val EDIT_MODE = "editMode"
+        private const val DISPLAY_MODE_TITLE = "displayModeTitle"
     }
 }
