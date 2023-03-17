@@ -65,6 +65,7 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
         }
         iconCheck.setOnClickListener {
             disableEditMode()
+            displayModeTitle.text = editModeTitle.text
         }
         iconBack.setOnClickListener {
             super.onBackPressed()
