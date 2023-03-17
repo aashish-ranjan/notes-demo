@@ -8,13 +8,14 @@
     android:background="@color/design_default_color_primary">
 
     <ImageView
+        android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:visibility="visible"
-        android:src="@drawable/ic_edit"/>
+        android:src="@drawable/ic_back"/>
 
     <TextView
+        android:id="@+id/tv_display_mode_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -24,13 +25,14 @@
         tools:text="Details of the saved note" />
 
     <ImageView
+        android:id="@+id/iv_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:visibility="gone"
         android:src="@drawable/ic_check"/>
 
     <EditText
+        android:id="@+id/et_edit_mode_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"

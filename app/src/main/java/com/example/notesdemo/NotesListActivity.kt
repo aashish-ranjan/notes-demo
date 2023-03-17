@@ -42,7 +42,7 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
     @SuppressLint("NotifyDataSetChanged")
     private fun populateRecyclerView() {
         repeat(100) { i ->
-            notesList.add(Note("Title #$i", timestamp = "Timestamp #$i"))
+            notesList.add(Note("Title #$i", content = "Content #$i", timestamp = "Timestamp #$i"))
         }
         recyclerView?.adapter?.notifyDataSetChanged()
     }
