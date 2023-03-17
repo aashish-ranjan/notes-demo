@@ -28,6 +28,7 @@
         android:layout_height="match_parent"
         android:inputType="textMultiLine"
         android:background="@null"
+        android:imeOptions="flagNoExtractUi"
         android:gravity="top" />
 
 </LinearLayout>
