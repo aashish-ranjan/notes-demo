@@ -1,6 +1,7 @@
 package com.example.notesdemo.util
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.notesdemo.models.Note
 import com.example.notesdemo.persistence.NotesDatabase
 
@@ -11,7 +12,7 @@ class NotesRepository(context: Context) {
         notesDatabase = NotesDatabase.getInstance(context)
     }
 
-    fun retrieveNotes(): List<Note> {
+    fun retrieveNotes(): LiveData<List<Note>> {
         return notesDatabase.noteDao().retrieveNotes()
     }
 

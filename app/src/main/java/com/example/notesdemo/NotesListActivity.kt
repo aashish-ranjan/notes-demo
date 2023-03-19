@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,13 +49,11 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
     }
 
     private fun populateRecyclerView() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        notesRepository.retrieveNotes().observe(this@NotesListActivity, Observer {
             mNotesList.clear()
-            mNotesList.addAll(notesRepository.retrieveNotes())
-            withContext(Dispatchers.Main) {
-                mRecyclerView?.adapter?.notifyDataSetChanged()
-            }
-        }
+            mNotesList.addAll(it)
+            mRecyclerView?.adapter?.notifyDataSetChanged()
+        })
     }
 
     override fun onNoteItemClicked(position: Int) {
@@ -99,9 +98,4 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
             }
         }
     }
-
-    companion object {
-        private const val TAG = "NotesListActivity"
-    }
-
 }

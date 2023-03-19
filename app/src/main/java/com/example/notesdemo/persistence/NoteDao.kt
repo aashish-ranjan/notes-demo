@@ -1,5 +1,6 @@
 package com.example.notesdemo.persistence
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.notesdemo.models.Note
 
@@ -7,7 +8,7 @@ import com.example.notesdemo.models.Note
 interface NoteDao {
 
     @Query("SELECT * FROM notes_table")
-    fun retrieveNotes(): List<Note>
+    fun retrieveNotes(): LiveData<List<Note>>
 
     @Update
     fun updateNote(vararg note: Note)
