@@ -1,31 +1,36 @@
 package com.example.notesdemo
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesdemo.adapters.NotesRecyclerAdapter
 import com.example.notesdemo.models.Note
 import com.example.notesdemo.util.NotesRecyclerItemDecoration
+import com.example.notesdemo.util.NotesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemClickListener {
 
     //UI components
-    var mRecyclerView: RecyclerView? = null
+    private var mRecyclerView: RecyclerView? = null
 
     //vars
     var mNotesList: ArrayList<Note> = arrayListOf()
+    private lateinit var notesRepository: NotesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes_list)
         setSupportActionBar(findViewById(R.id.notesToolbar))
         title = "Notes List"
+        notesRepository = NotesRepository(this)
         initRecyclerView()
         populateRecyclerView()
         handleItemDeleteOnSwipeGesture()
@@ -42,16 +47,17 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun populateRecyclerView() {
-        repeat(100) { i ->
-            mNotesList.add(Note("Title #$i", content = "Content #$i", timestamp = "Timestamp #$i"))
+        lifecycleScope.launch(Dispatchers.IO) {
+            mNotesList.clear()
+            mNotesList.addAll(notesRepository.retrieveNotes())
+            withContext(Dispatchers.Main) {
+                mRecyclerView?.adapter?.notifyDataSetChanged()
+            }
         }
-        mRecyclerView?.adapter?.notifyDataSetChanged()
     }
 
     override fun onNoteItemClicked(position: Int) {
-        Log.d(TAG, "onNoteClicked at position $position")
         if (position >= 0) {
             val note = mNotesList[position]
             val intent = Intent(this, NotesDetailActivity::class.java)
@@ -85,9 +91,13 @@ class NotesListActivity : AppCompatActivity(), NotesRecyclerAdapter.OnNoteItemCl
     }
 
     private fun deleteNote(note: Note) {
-        mNotesList.remove(note)
-        mRecyclerView?.adapter?.notifyDataSetChanged()
-
+        lifecycleScope.launch(Dispatchers.IO) {
+            notesRepository.deleteNote(note)
+            withContext(Dispatchers.Main) {
+                mNotesList.remove(note)
+                mRecyclerView?.adapter?.notifyDataSetChanged()
+            }
+        }
     }
 
     companion object {

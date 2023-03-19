@@ -11,7 +11,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.notesdemo.models.Note
+import com.example.notesdemo.util.NotesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
@@ -27,20 +31,23 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
     //vars
     private lateinit var gestureDetector: GestureDetector
     private var mEditMode = EDIT_MODE_DISABLED
+    private var mNote: Note? = null
+    private lateinit var notesRepository: NotesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notes_detail)
 
         initUiElements()
-        val note = intent?.getParcelableExtra<Note?>("note_key")
-        setUpInitialProperties(note)
-        if (note != null) {
+        mNote = intent?.getParcelableExtra<Note?>("note_key")
+        setUpInitialProperties(mNote)
+        if (mNote != null) {
             disableEditMode()
         } else {
             enableEditMode()
         }
         initListeners()
+        notesRepository = NotesRepository(this)
     }
 
     private fun initUiElements() {
@@ -66,9 +73,31 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
         iconCheck.setOnClickListener {
             disableEditMode()
             displayModeTitle.text = editModeTitle.text
+            lifecycleScope.launch(Dispatchers.IO) {
+                saveChanges()
+            }
         }
         iconBack.setOnClickListener {
             super.onBackPressed()
+        }
+    }
+
+    private fun saveChanges() {
+        if (mNote == null) {
+            val noteToAdd = Note(
+                title = displayModeTitle.text.toString(),
+                content = linedEditText.text.toString(),
+                timestamp = "Mar 2019"
+            )
+            mNote = noteToAdd
+            notesRepository.insertNote(noteToAdd)
+        } else {
+            mNote?.let {
+                it.title = displayModeTitle.text.toString()
+                it.content = linedEditText.text.toString()
+                it.timestamp = "Apr 2019"
+                notesRepository.updateNote(it)
+            }
         }
     }
 
