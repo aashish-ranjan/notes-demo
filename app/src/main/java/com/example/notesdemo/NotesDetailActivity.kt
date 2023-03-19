@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.notesdemo.models.Note
 import com.example.notesdemo.util.NotesRepository
+import com.example.notesdemo.util.TimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -87,7 +88,7 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
             val noteToAdd = Note(
                 title = displayModeTitle.text.toString(),
                 content = linedEditText.text.toString(),
-                timestamp = "Mar 2019"
+                timestamp = TimeUtils.getCurrentDateTime()
             )
             mNote = noteToAdd
             notesRepository.insertNote(noteToAdd)
@@ -95,7 +96,7 @@ class NotesDetailActivity : AppCompatActivity(), View.OnTouchListener,
             mNote?.let {
                 it.title = displayModeTitle.text.toString()
                 it.content = linedEditText.text.toString()
-                it.timestamp = "Apr 2019"
+                it.timestamp = TimeUtils.getCurrentDateTime()
                 notesRepository.updateNote(it)
             }
         }
